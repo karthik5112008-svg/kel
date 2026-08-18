@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Santhai Prime — 500+ Branded Real-World Marketplace with Express Hub Delivery. Shop Infinity Audio, Home Appliances, Laptops, Smartwatches, Snacks & More.">
+  <title>Santhai Prime — 500+ Branded Real-World Marketplace</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ── Top Promo Bar ── -->
+  <div class="top-promo-bar">
+    <span>⚡ <strong>500+ PRODUCTS MEGA SALE:</strong> Flat ₹500 OFF →
+      <span class="coupon-pill" onclick="applyQuickPromo('SANTHAI500')">SANTHAI500</span>
+      on orders above ₹1,999 &nbsp;|&nbsp; Also try
+      <span class="coupon-pill" onclick="applyQuickPromo('FESTIVE10')">FESTIVE10</span>
+      for 10% off
+    </span>
+  </div>
+
+  <!-- ── Sticky Header ── -->
+  <header>
+    <div class="brand-group" onclick="resetFilters()">
+      <div class="brand-badge">S</div>
+      <div class="brand-info">
+        <h1>Santhai <span style="font-size:12px;color:var(--accent-gold);">PRIME</span></h1>
+        <div class="brand-tagline">500+ Branded Real-World Hub</div>
+      </div>
+    </div>
+
+    <div class="location-container" id="location-pill">
+      <div class="loc-pulse"></div>
+      <span class="loc-text" id="user-location-label">Detecting location…</span>
+      <button class="btn-loc-change" id="btn-open-loc-modal">Change</button>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn-nav-action" id="btn-open-wishlist" title="Saved Wishlist">
+        <span>♥</span>
+        <span class="nav-badge-count" id="wishlist-count">0</span>
+      </button>
+
+      <button class="btn-nav-action" id="btn-open-orders" title="Orders & Tracking">
+        <span>📦 Orders</span>
+        <span class="nav-badge-count" id="orders-count">0</span>
+      </button>
+
+      <button class="btn-nav-action" id="btn-open-api-modal" title="API Keys">
+        <span>🔑 API</span>
+      </button>
+
+      <button class="cart-trigger" id="btn-cart-open">
+        <span>Cart</span>
+        <span class="cart-badge" id="cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── Live API Status Strip ── -->
+  <div class="api-status-strip">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="api-badge">● 500+ Catalog Active</span>
+      <span style="color:#FFF;">API Key:</span>
+      <span class="mono" id="strip-api-key-preview" style="color:var(--accent-gold);">sk_live_santhai_9488467006_...</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span>⚡ Express Dispatch: <strong>Under 2 Hours</strong></span>
+      <span>UPI: <strong>9488467006@fam</strong></span>
+    </div>
+  </div>
+
+  <!-- ── Hero Banner ── -->
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-pill-group">
+        <div class="hero-pill">⚡ 500 Authentic Brand Items In Stock</div>
+        <div class="flash-timer">⏳ Flash Deals End In: <span id="deal-timer">03h 48m 12s</span></div>
+      </div>
+      <h2 class="hero-title">
+        India's Largest Branded Marketplace —
+        <span>Tech, Appliances, Snacks & Luxury</span>
+      </h2>
+      <p class="hero-subtitle">
+        500 unique products with genuine Indian market pricing, manufacturer specs, verified customer feedback and 2-hour express doorstep delivery anywhere in India.
+      </p>
+
+      <div class="search-box-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" class="search-input"
+          placeholder="Search 500+ branded products: Infinity, Dyson, MacBook, Sony, PS5, Lay's, Smartwatches…">
+        <button class="voice-search-btn" id="btn-voice-search" title="Voice Search">🎙️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Category & Filter Bar ── -->
+  <div class="filter-bar">
+    <div class="chip-group" id="category-chips"></div>
+
+    <div class="filter-dropdowns">
+      <select id="brand-filter" class="select-styled"></select>
+
+      <select id="price-range-filter" class="select-styled">
+        <option value="all">All Prices</option>
+        <option value="under-500">Under ₹500</option>
+        <option value="500-2000">₹500 – ₹2,000</option>
+        <option value="2000-10000">₹2,000 – ₹10,000</option>
+        <option value="10000-50000">₹10,000 – ₹50,000</option>
+        <option value="above-50000">Above ₹50,000</option>
+      </select>
+
+      <select id="dist-filter" class="select-styled">
+        <option value="999">Any Distance</option>
+        <option value="5">Under 5 km</option>
+        <option value="10">Under 10 km</option>
+        <option value="25">Under 25 km</option>
+      </select>
+
+      <select id="rating-filter" class="select-styled">
+        <option value="0">Any Rating</option>
+        <option value="4.5">★ 4.5 & Above</option>
+        <option value="4.8">★ 4.8 & Above</option>
+      </select>
+
+      <select id="sort-filter" class="select-styled">
+        <option value="popular">Popular & Featured</option>
+        <option value="near">Nearest Hub</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="rating">Top Rated</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ── Main Products Section ── -->
+  <main>
+    <div class="section-header">
+      <div class="section-title">
+        <span id="category-heading">500 Branded Products</span>
+        <span class="section-badge" id="verified-badge">100% Genuine Authorized Stock</span>
+      </div>
+      <span class="result-count" id="result-count">Loading 500 products…</span>
+    </div>
+
+    <div class="products-grid" id="products-grid"></div>
+
+    <!-- Auto Infinite Scroll Sentinel -->
+    <div class="infinite-scroll-sentinel" id="infinite-scroll-sentinel">
+      <div class="infinite-spinner" id="infinite-spinner"></div>
+      <div class="infinite-status" id="infinite-status">Scroll to explore all 500 branded products</div>
+    </div>
+  </main>
+
+  <!-- ── 24/7 AI Chat Widget ── -->
+  <button class="floating-chat-trigger" id="btn-toggle-chat" title="Chat with Santhai AI Assistant">💬</button>
+  <div class="chat-drawer" id="chat-drawer">
+    <div class="chat-header">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--accent-green);"></div>
+        <h4 style="font-size:14px;font-weight:700;color:#FFF;">Santhai Prime Assistant</h4>
+      </div>
+      <button class="btn-close" id="btn-close-chat">✕</button>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-msg bot">👋 Hello! Ask me about warranty, delivery ETA, UPI payments, coupon codes or product recommendations across 500+ items!</div>
+    </div>
+    <div class="chat-input-row">
+      <input type="text" id="chat-input" class="input-styled" style="margin-top:0;" placeholder="Type your question…">
+      <button id="btn-send-chat" class="btn-add-cart" style="padding:0 14px;">Send</button>
+    </div>
+  </div>
+
+  <!-- ── Cart Slide-Over Drawer ── -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <div class="cart-drawer" id="cart-drawer">
+    <div class="drawer-header">
+      <h3>Your Shopping Cart</h3>
+      <button class="btn-close" id="btn-cart-close">✕</button>
+    </div>
+    <div class="drawer-body" id="cart-items-list"></div>
+    <div class="drawer-footer">
+      <!-- Coupon Box -->
+      <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:10px;margin-bottom:12px;">
+        <label style="font-size:11.5px;font-weight:700;color:var(--accent-gold);text-transform:uppercase;">Apply Discount Coupon</label>
+        <div class="coupon-box-row">
+          <input type="text" id="coupon-input" class="input-styled" style="margin-top:0;text-transform:uppercase;" placeholder="e.g. SANTHAI500">
+          <button id="btn-apply-coupon" class="btn-loc-change" style="padding:0 12px;border-radius:var(--radius-sm);">Apply</button>
+        </div>
+        <div id="coupon-status" style="font-size:11.5px;margin-top:4px;"></div>
+      </div>
+      <!-- Order Summary -->
+      <div class="order-summary-row"><span>Items Subtotal</span><span id="cart-subtotal">₹0</span></div>
+      <div class="order-summary-row discount" id="cart-discount-row" style="display:none;">
+        <span>Coupon Discount</span><span id="cart-discount-val">-₹0</span>
+      </div>
+      <div class="order-summary-row"><span>Express Dispatch</span><span style="color:var(--accent-green);font-weight:700;">FREE</span></div>
+      <div class="order-summary-row total"><span>Total Amount</span><span id="cart-grand-total">₹0</span></div>
+      <button class="btn-checkout" id="btn-proceed-checkout" disabled>Proceed to Secure Checkout</button>
+    </div>
+  </div>
+
+  <!-- ── Product Quick View Modal ── -->
+  <div class="modal-wrapper" id="quickview-modal">
+    <div class="modal-card xlarge">
+      <div class="modal-header">
+        <h3 id="qv-title">Product Details</h3>
+        <button class="btn-close" id="btn-qv-close">✕</button>
+      </div>
+      <div class="modal-body" id="qv-body"></div>
+    </div>
+  </div>
+
+  <!-- ── Wishlist Modal ── -->
+  <div class="modal-wrapper" id="wishlist-modal">
+    <div class="modal-card large">
+      <div class="modal-header">
+        <h3>♥ Your Saved Wishlist</h3>
+        <button class="btn-close" id="btn-wishlist-close">✕</button>
+      </div>
+      <div class="modal-body" id="wishlist-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ── Orders & Live Tracking Modal ── -->
+  <div class="modal-wrapper" id="orders-modal">
+    <div class="modal-card large">
+      <div class="modal-header">
+        <h3>📦 Your Orders & Live Tracking</h3>
+        <button class="btn-close" id="btn-orders-close">✕</button>
+      </div>
+      <div class="modal-body" id="orders-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ── API Key Modal ── -->
+  <div class="modal-wrapper" id="api-modal">
+    <div class="modal-card large">
+      <div class="modal-header">
+        <h3>🔑 Real-Time API Key & Developer Suite</h3>
+        <button class="btn-close" id="btn-api-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">
+          Use your <strong>Santhai Prime Live API Key</strong> to connect real-time order creation, inventory sync, live location tracking, and payment gateways.
+        </p>
+        <label style="font-size:12px;font-weight:700;color:var(--accent-gold);text-transform:uppercase;">Your Active Live API Key</label>
+        <div style="background:#06090F;border:1px solid var(--border-highlight);border-radius:var(--radius-sm);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0 16px;">
+          <span class="mono" id="active-api-key-val" style="color:var(--accent-cyan);font-size:13px;word-break:break-all;"></span>
+          <button id="btn-copy-live-api-key" class="btn-loc-change" style="padding:4px 10px;">Copy Key</button>
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:16px;">
+          <button id="btn-regenerate-api-key" class="btn-quick-view" style="flex:1;">🔄 Generate New Key</button>
+          <button id="btn-test-api-call" class="btn-quick-view" style="flex:1;background:rgba(16,185,129,0.15);color:var(--accent-green);border-color:rgba(16,185,129,0.4);">⚡ Test Live Ping</button>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:14px;margin-bottom:16px;">
+          <h4 style="font-size:13px;color:#FFF;margin-bottom:6px;">🔌 External Integration Keys</h4>
+          <label style="font-size:11px;color:var(--text-secondary);display:block;margin-top:8px;">Razorpay / Payment Gateway Key:</label>
+          <input type="text" id="ext-payment-key" class="input-styled" placeholder="rzp_live_..." style="margin-top:2px;">
+          <label style="font-size:11px;color:var(--text-secondary);display:block;margin-top:8px;">Google Maps API Key:</label>
+          <input type="text" id="ext-maps-key" class="input-styled" placeholder="AIzaSy..." style="margin-top:2px;">
+          <button id="btn-save-ext-keys" class="btn-checkout" style="margin-top:12px;padding:10px;">Save Configuration</button>
+        </div>
+        <label style="font-size:12px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;">cURL Example</label>
+        <pre id="api-code-snippet" style="background:#06090F;border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:12px;font-size:12px;color:#E2E8F0;overflow-x:auto;margin-top:8px;line-height:1.5;"></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Product Feedback Modal ── -->
+  <div class="modal-wrapper" id="feedback-modal">
+    <div class="modal-card large">
+      <div class="modal-header">
+        <h3 id="feedback-modal-title">Product Reviews & Feedback</h3>
+        <button class="btn-close" id="btn-feedback-close">✕</button>
+      </div>
+      <div class="modal-body" id="feedback-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ── Location Selector Modal ── -->
+  <div class="modal-wrapper" id="location-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Select Delivery Location</h3>
+        <button class="btn-close" id="btn-loc-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">Choose your city or enter your pincode to check same-day express delivery availability:</p>
+        <button id="btn-use-gps" class="btn-checkout" style="background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-highlight);padding:10px;margin-bottom:14px;">
+          📍 Use Device GPS Location
+        </button>
+        <label style="font-size:12px;font-weight:700;color:var(--accent-gold);text-transform:uppercase;">Quick Select Major Hubs</label>
+        <div class="city-grid">
+          <button class="city-btn" data-city="Mumbai"     data-pincode="400001" data-lat="19.0760" data-lon="72.8777">🏢 Mumbai (400001)</button>
+          <button class="city-btn" data-city="Bengaluru"  data-pincode="560001" data-lat="12.9716" data-lon="77.5946">💻 Bengaluru (560001)</button>
+          <button class="city-btn" data-city="Delhi NCR"  data-pincode="110001" data-lat="28.6139" data-lon="77.2090">🏛️ Delhi NCR (110001)</button>
+          <button class="city-btn" data-city="Chennai"    data-pincode="600001" data-lat="13.0827" data-lon="80.2707">🌊 Chennai (600001)</button>
+          <button class="city-btn" data-city="Hyderabad"  data-pincode="500001" data-lat="17.3850" data-lon="78.4867">💎 Hyderabad (500001)</button>
+          <button class="city-btn" data-city="Kolkata"    data-pincode="700001" data-lat="22.5726" data-lon="88.3639">🎨 Kolkata (700001)</button>
+          <button class="city-btn" data-city="Pune"       data-pincode="411001" data-lat="18.5204" data-lon="73.8567">🚗 Pune (411001)</button>
+          <button class="city-btn" data-city="Ahmedabad"  data-pincode="380001" data-lat="23.0225" data-lon="72.5714">🪁 Ahmedabad (380001)</button>
+        </div>
+        <div style="margin-top:16px;">
+          <label style="font-size:12px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;">Or Enter Pincode / City</label>
+          <div style="display:flex;gap:8px;margin-top:6px;">
+            <input type="text" id="manual-city-input" class="input-styled" style="margin-top:0;" placeholder="e.g. 560001 or Jaipur…">
+            <button id="btn-manual-city-apply" class="btn-loc-change" style="padding:0 16px;border-radius:var(--radius-sm);">Check</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Payment / UPI Checkout Modal ── -->
+  <div class="modal-wrapper" id="payment-modal">
+    <div class="modal-card large">
+      <div class="modal-header">
+        <h3>Real-World Secure Checkout</h3>
+        <button class="btn-close" id="btn-pay-close">✕</button>
+      </div>
+      <div class="modal-body" id="payment-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ── Toast Notification ── -->
+  <div class="toast" id="toast-bar">
+    <span id="toast-text">Done!</span>
+  </div>
+
+  <!-- Main JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>

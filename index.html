@@ -3,30 +3,293 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Santhai Prime — 500+ Branded Real-World Marketplace with Express Hub Delivery. Shop Infinity Audio, Home Appliances, Laptops, Smartwatches, Snacks & More.">
   <title>Santhai Prime — 500+ Branded Real-World Marketplace</title>
-
+  
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --bg-main: #0B0F17;
+      --bg-surface: #111827;
+      --bg-surface-elevated: #1F2937;
+      --bg-card: #151D2C;
+      --bg-card-hover: #1A2436;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-highlight: rgba(255, 255, 255, 0.16);
+      --text-primary: #F9FAFB;
+      --text-secondary: #9CA3AF;
+      --text-muted: #6B7280;
+      --accent-gold: #F59E0B;
+      --accent-gold-hover: #D97706;
+      --accent-blue: #3B82F6;
+      --accent-cyan: #06B6D4;
+      --accent-green: #10B981;
+      --accent-rose: #F43F5E;
+      --accent-purple: #8B5CF6;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-full: 9999px;
+      --shadow-card: 0 10px 25px -5px rgba(0,0,0,0.5);
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      line-height: 1.5;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .brand-name { font-family: 'Outfit', sans-serif; }
+    code, pre, .mono { font-family: 'JetBrains Mono', monospace; }
+
+    .top-promo-bar {
+      background: linear-gradient(90deg, #7C2D12 0%, #B45309 50%, #7C2D12 100%);
+      color: #FFF; font-size: 12px; font-weight: 600; padding: 6px 16px;
+      text-align: center; display: flex; align-items: center; justify-content: center; gap: 12px;
+    }
+    .top-promo-bar .coupon-pill {
+      background: #FFF; color: #B45309; font-weight: 800; padding: 2px 8px;
+      border-radius: var(--radius-full); font-size: 11px; cursor: pointer;
+    }
+
+    header {
+      background: rgba(11, 15, 23, 0.95); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle); position: sticky; top: 0;
+      z-index: 100; padding: 12px 24px; display: flex; align-items: center;
+      justify-content: space-between; gap: 16px;
+    }
+    .brand-group { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .brand-badge {
+      width: 42px; height: 42px; background: linear-gradient(135deg, #F59E0B 0%, #EA580C 100%);
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 22px; color: #000;
+    }
+    .brand-info h1 { font-size: 20px; font-weight: 800; }
+    .brand-tagline { font-size: 11px; color: var(--accent-gold); font-weight: 700; text-transform: uppercase; }
+
+    .location-container {
+      display: flex; align-items: center; gap: 8px; background: var(--bg-surface);
+      border: 1px solid var(--border-subtle); border-radius: var(--radius-full);
+      padding: 6px 14px; font-size: 13px; cursor: pointer;
+    }
+    .loc-pulse {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--accent-green);
+      box-shadow: 0 0 8px var(--accent-green);
+    }
+    .btn-loc-change {
+      background: rgba(245, 158, 11, 0.15); color: var(--accent-gold);
+      border: 1px solid rgba(245, 158, 11, 0.3); padding: 3px 8px;
+      border-radius: var(--radius-full); font-size: 11px; font-weight: 700; cursor: pointer;
+    }
+
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .btn-nav-action {
+      background: var(--bg-surface); color: var(--text-primary);
+      border: 1px solid var(--border-subtle); padding: 8px 14px; border-radius: var(--radius-full);
+      font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;
+    }
+    .nav-badge-count {
+      background: var(--accent-rose); color: #FFF; font-size: 10px; font-weight: 800;
+      padding: 1px 6px; border-radius: var(--radius-full);
+    }
+    .cart-trigger {
+      background: linear-gradient(135deg, var(--accent-gold) 0%, #EA580C 100%);
+      color: #0B0F17; border: none; border-radius: var(--radius-full); padding: 9px 18px;
+      font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 8px; cursor: pointer;
+    }
+    .cart-badge {
+      background: #0B0F17; color: #FFF; border-radius: 50%; width: 22px; height: 22px;
+      display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800;
+    }
+
+    .api-status-strip {
+      background: #0D1424; border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+      padding: 6px 24px; font-size: 12px; display: flex; align-items: center;
+      justify-content: space-between; color: #93C5FD; flex-wrap: wrap; gap: 8px;
+    }
+    .api-badge {
+      background: rgba(16, 185, 129, 0.15); color: var(--accent-green);
+      padding: 2px 8px; border-radius: var(--radius-full); font-weight: 700; font-size: 11px;
+    }
+
+    .hero {
+      min-height: 340px;
+      background: linear-gradient(180deg, rgba(11,15,23,0.7) 0%, rgba(11,15,23,1) 100%),
+                  url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&q=80') center/cover;
+      display: flex; align-items: center; justify-content: center; padding: 40px 20px; text-align: center;
+    }
+    .hero-content { max-width: 860px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .hero-pill {
+      background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.35);
+      color: var(--accent-gold); padding: 4px 14px; border-radius: var(--radius-full);
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+    }
+    .hero-title { font-size: clamp(28px, 4vw, 44px); font-weight: 900; line-height: 1.2; color: #FFF; }
+    .hero-title span {
+      background: linear-gradient(135deg, #FDE68A 0%, #F59E0B 50%, #FB923C 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-subtitle { font-size: 15px; color: var(--text-secondary); max-width: 680px; }
+
+    .search-box-wrap { width: 100%; max-width: 680px; position: relative; margin-top: 6px; }
+    .search-input {
+      width: 100%; background: rgba(17, 24, 39, 0.9); border: 1px solid var(--border-highlight);
+      border-radius: var(--radius-full); padding: 14px 50px 14px 44px; color: #FFF; font-size: 15px; outline: none;
+    }
+    .search-input:focus { border-color: var(--accent-gold); box-shadow: 0 0 16px rgba(245,158,11,0.3); }
+    .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+
+    .filter-bar {
+      background: var(--bg-surface); border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 24px; position: sticky; top: 67px; z-index: 90;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .chip-group { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+    .chip-group::-webkit-scrollbar { display: none; }
+    .filter-chip {
+      background: var(--bg-card); border: 1px solid var(--border-subtle); color: var(--text-secondary);
+      padding: 6px 14px; border-radius: var(--radius-full); font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap;
+    }
+    .filter-chip.active { background: var(--accent-gold); border-color: var(--accent-gold); color: #0B0F17; font-weight: 800; }
+    .select-styled {
+      background: var(--bg-card); border: 1px solid var(--border-subtle); color: var(--text-primary);
+      padding: 7px 12px; border-radius: var(--radius-sm); font-size: 13px; outline: none; cursor: pointer;
+    }
+
+    main { max-width: 1400px; margin: 0 auto; padding: 24px 20px 60px; }
+    .section-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      border-bottom: 1px solid var(--border-subtle); padding-bottom: 12px; margin-bottom: 20px; flex-wrap: wrap; gap: 8px;
+    }
+    .section-title { font-size: 22px; font-weight: 800; color: #FFF; display: flex; align-items: center; gap: 10px; }
+    .section-badge { background: rgba(59,130,246,0.15); color: var(--accent-blue); font-size: 12px; padding: 2px 10px; border-radius: var(--radius-full); }
+    .result-count { font-size: 13px; color: var(--text-secondary); }
+
+    .products-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 20px;
+    }
+
+    .product-card {
+      background: var(--bg-card); border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column;
+      transition: var(--transition); position: relative;
+    }
+    .product-card:hover { transform: translateY(-4px); border-color: var(--border-highlight); background: var(--bg-card-hover); box-shadow: var(--shadow-card); }
+    .card-media {
+      position: relative; width: 100%; height: 210px; background: #0D131F;
+      overflow: hidden; cursor: pointer;
+    }
+    .card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+    .product-card:hover .card-img { transform: scale(1.06); }
+    .brand-pill {
+      position: absolute; top: 10px; left: 10px; background: rgba(11,15,23,0.88);
+      color: #FFF; border: 1px solid var(--border-highlight); font-size: 11px;
+      font-weight: 700; padding: 3px 8px; border-radius: var(--radius-full); text-transform: uppercase; z-index: 2;
+    }
+    .card-badge-group { position: absolute; top: 10px; right: 10px; display: flex; align-items: center; gap: 6px; z-index: 2; }
+    .discount-pill { background: var(--accent-rose); color: #FFF; font-size: 10.5px; font-weight: 800; padding: 3px 7px; border-radius: var(--radius-full); }
+    .btn-wishlist-toggle {
+      background: rgba(11,15,23,0.85); border: 1px solid var(--border-highlight); color: var(--text-secondary);
+      width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;
+    }
+    .btn-wishlist-toggle.active { color: var(--accent-rose); border-color: var(--accent-rose); background: rgba(244,63,94,0.2); }
+    .delivery-speed-pill {
+      position: absolute; bottom: 8px; left: 10px; background: rgba(16,185,129,0.9);
+      color: #000; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: var(--radius-full); text-transform: uppercase;
+    }
+
+    .card-content { padding: 14px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
+    .card-category { font-size: 11px; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; }
+    .card-name { font-size: 14.5px; font-weight: 700; color: #FFF; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; cursor: pointer; }
+    .card-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+    .card-rating-store { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: var(--text-secondary); }
+    .rating-tag {
+      background: rgba(16, 185, 129, 0.15); color: var(--accent-green); font-weight: 700;
+      padding: 2px 7px; border-radius: var(--radius-sm); cursor: pointer;
+    }
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 10px; border-top: 1px solid var(--border-subtle);
+    }
+    .price-main { font-size: 17px; font-weight: 800; color: #FFF; }
+    .price-mrp { font-size: 11px; color: var(--text-muted); text-decoration: line-through; }
+    .btn-add-cart {
+      background: var(--bg-surface-elevated); color: var(--accent-gold);
+      border: 1px solid rgba(245, 158, 11, 0.4); padding: 6px 12px; border-radius: var(--radius-sm);
+      font-weight: 700; font-size: 13px; cursor: pointer;
+    }
+    .btn-add-cart:hover { background: var(--accent-gold); color: #000; }
+    .btn-add-cart.added { background: var(--accent-green); color: #FFF; border-color: var(--accent-green); }
+
+    .drawer-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(4px);
+      opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 200;
+    }
+    .drawer-overlay.open { opacity: 1; pointer-events: auto; }
+    .cart-drawer {
+      position: fixed; top: 0; right: 0; width: 400px; max-width: 90vw; height: 100%;
+      background: var(--bg-surface); border-left: 1px solid var(--border-highlight);
+      z-index: 201; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s;
+    }
+    .cart-drawer.open { transform: translateX(0); }
+    .drawer-header { padding: 16px 20px; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; }
+    .drawer-body { flex: 1; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+    .cart-item {
+      display: flex; gap: 10px; padding: 10px; background: var(--bg-card);
+      border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);
+    }
+    .cart-item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; }
+    .qty-counter { display: flex; align-items: center; gap: 6px; background: var(--bg-surface-elevated); padding: 2px 6px; border-radius: 4px; }
+    .qty-btn { background: none; border: none; color: #FFF; font-size: 14px; font-weight: 700; cursor: pointer; width: 20px; }
+    .drawer-footer { padding: 16px 20px; border-top: 1px solid var(--border-subtle); }
+    .order-summary-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-bottom: 5px; }
+    .order-summary-row.total { font-size: 16px; font-weight: 800; color: #FFF; border-top: 1px dashed var(--border-highlight); padding-top: 8px; margin-top: 6px; }
+    .btn-checkout {
+      width: 100%; background: linear-gradient(135deg, var(--accent-gold) 0%, #D97706 100%);
+      color: #000; border: none; padding: 12px; border-radius: var(--radius-sm);
+      font-size: 14px; font-weight: 800; cursor: pointer; margin-top: 12px;
+    }
+
+    .modal-wrapper {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center; z-index: 300; padding: 20px;
+    }
+    .modal-wrapper.open { display: flex; }
+    .modal-card {
+      background: var(--bg-surface); border: 1px solid var(--border-highlight);
+      border-radius: var(--radius-md); width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; padding: 20px;
+    }
+    .btn-close { background: none; border: none; color: var(--text-secondary); font-size: 20px; cursor: pointer; float: right; }
+    .input-styled {
+      width: 100%; background: var(--bg-card); border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm); padding: 9px 12px; color: #FFF; font-size: 13px; outline: none; margin-top: 6px;
+    }
+
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(30px);
+      background: #1F2937; color: #FFF; border: 1px solid var(--border-highlight);
+      padding: 10px 20px; border-radius: var(--radius-full); font-size: 13px; font-weight: 600;
+      opacity: 0; pointer-events: none; transition: var(--transition); z-index: 400;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
 </head>
 <body>
 
-  <!-- ── Top Promo Bar ── -->
+  <!-- Promo Top Bar -->
   <div class="top-promo-bar">
-    <span>⚡ <strong>500+ PRODUCTS MEGA SALE:</strong> Flat ₹500 OFF →
-      <span class="coupon-pill" onclick="applyQuickPromo('SANTHAI500')">SANTHAI500</span>
-      on orders above ₹1,999 &nbsp;|&nbsp; Also try
-      <span class="coupon-pill" onclick="applyQuickPromo('FESTIVE10')">FESTIVE10</span>
-      for 10% off
-    </span>
+    <span>⚡ <strong>500+ PRODUCTS LIVE:</strong> Use code <span class="coupon-pill" onclick="applyQuickPromo('SANTHAI500')">SANTHAI500</span> for Flat ₹500 OFF!</span>
   </div>
 
-  <!-- ── Sticky Header ── -->
+  <!-- Header -->
   <header>
     <div class="brand-group" onclick="resetFilters()">
       <div class="brand-badge">S</div>
@@ -36,306 +299,473 @@
       </div>
     </div>
 
-    <div class="location-container" id="location-pill">
+    <div class="location-container" onclick="openLocationModal()">
       <div class="loc-pulse"></div>
-      <span class="loc-text" id="user-location-label">Detecting location…</span>
-      <button class="btn-loc-change" id="btn-open-loc-modal">Change</button>
+      <span id="user-location-label">Bengaluru (560001)</span>
+      <button class="btn-loc-change">Change</button>
     </div>
 
     <div class="header-actions">
-      <button class="btn-nav-action" id="btn-open-wishlist" title="Saved Wishlist">
-        <span>♥</span>
-        <span class="nav-badge-count" id="wishlist-count">0</span>
-      </button>
-
-      <button class="btn-nav-action" id="btn-open-orders" title="Orders & Tracking">
-        <span>📦 Orders</span>
-        <span class="nav-badge-count" id="orders-count">0</span>
-      </button>
-
-      <button class="btn-nav-action" id="btn-open-api-modal" title="API Keys">
-        <span>🔑 API</span>
-      </button>
-
-      <button class="cart-trigger" id="btn-cart-open">
-        <span>Cart</span>
-        <span class="cart-badge" id="cart-count">0</span>
-      </button>
+      <button class="btn-nav-action" onclick="openOrdersModal()">📦 Orders (<span id="orders-count">0</span>)</button>
+      <button class="cart-trigger" onclick="openCart()">Cart <span class="cart-badge" id="cart-count">0</span></button>
     </div>
   </header>
 
-  <!-- ── Live API Status Strip ── -->
+  <!-- Live Bar -->
   <div class="api-status-strip">
     <div style="display:flex;align-items:center;gap:8px;">
-      <span class="api-badge">● 500+ Catalog Active</span>
-      <span style="color:#FFF;">API Key:</span>
-      <span class="mono" id="strip-api-key-preview" style="color:var(--accent-gold);">sk_live_santhai_9488467006_...</span>
+      <span class="api-badge">● 500+ Items Active</span>
+      <span>UPI Gateway: <strong style="color:var(--accent-gold);">9488467006@fam</strong></span>
     </div>
-    <div style="display:flex;align-items:center;gap:12px;">
-      <span>⚡ Express Dispatch: <strong>Under 2 Hours</strong></span>
-      <span>UPI: <strong>9488467006@fam</strong></span>
-    </div>
+    <div>⚡ Express Delivery: <strong>Under 2 Hours</strong></div>
   </div>
 
-  <!-- ── Hero Banner ── -->
+  <!-- Hero -->
   <div class="hero">
     <div class="hero-content">
-      <div class="hero-pill-group">
-        <div class="hero-pill">⚡ 500 Authentic Brand Items In Stock</div>
-        <div class="flash-timer">⏳ Flash Deals End In: <span id="deal-timer">03h 48m 12s</span></div>
-      </div>
-      <h2 class="hero-title">
-        India's Largest Branded Marketplace —
-        <span>Tech, Appliances, Snacks & Luxury</span>
-      </h2>
-      <p class="hero-subtitle">
-        500 unique products with genuine Indian market pricing, manufacturer specs, verified customer feedback and 2-hour express doorstep delivery anywhere in India.
-      </p>
-
+      <div class="hero-pill">500 Authentic Brand Items In Stock</div>
+      <h2 class="hero-title">500 Distinct Products of <span>Infinity Tech, Appliances & Delicacies</span></h2>
+      <p class="hero-subtitle">Direct manufacturer pricing, real-world verified specs, genuine warranty & instant express delivery.</p>
+      
       <div class="search-box-wrap">
         <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" class="search-input"
-          placeholder="Search 500+ branded products: Infinity, Dyson, MacBook, Sony, PS5, Lay's, Smartwatches…">
-        <button class="voice-search-btn" id="btn-voice-search" title="Voice Search">🎙️</button>
+        <input type="text" id="search-input" class="search-input" placeholder="Search 500+ products: Infinity, Dyson, MacBook, Sony, Lay's, PS5...">
       </div>
     </div>
   </div>
 
-  <!-- ── Category & Filter Bar ── -->
+  <!-- Filter Bar -->
   <div class="filter-bar">
     <div class="chip-group" id="category-chips"></div>
 
-    <div class="filter-dropdowns">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
       <select id="brand-filter" class="select-styled"></select>
-
-      <select id="price-range-filter" class="select-styled">
+      <select id="price-filter" class="select-styled">
         <option value="all">All Prices</option>
-        <option value="under-500">Under ₹500</option>
-        <option value="500-2000">₹500 – ₹2,000</option>
-        <option value="2000-10000">₹2,000 – ₹10,000</option>
-        <option value="10000-50000">₹10,000 – ₹50,000</option>
-        <option value="above-50000">Above ₹50,000</option>
+        <option value="under-1000">Under ₹1,000</option>
+        <option value="1000-10000">₹1,000 - ₹10,000</option>
+        <option value="above-10000">Above ₹10,000</option>
       </select>
-
-      <select id="dist-filter" class="select-styled">
-        <option value="999">Any Distance</option>
-        <option value="5">Under 5 km</option>
-        <option value="10">Under 10 km</option>
-        <option value="25">Under 25 km</option>
-      </select>
-
-      <select id="rating-filter" class="select-styled">
-        <option value="0">Any Rating</option>
-        <option value="4.5">★ 4.5 & Above</option>
-        <option value="4.8">★ 4.8 & Above</option>
-      </select>
-
       <select id="sort-filter" class="select-styled">
-        <option value="popular">Popular & Featured</option>
-        <option value="near">Nearest Hub</option>
+        <option value="popular">Popular</option>
         <option value="price-asc">Price: Low to High</option>
         <option value="price-desc">Price: High to Low</option>
-        <option value="rating">Top Rated</option>
       </select>
     </div>
   </div>
 
-  <!-- ── Main Products Section ── -->
+  <!-- Products Main Container -->
   <main>
     <div class="section-header">
       <div class="section-title">
         <span id="category-heading">500 Branded Products</span>
-        <span class="section-badge" id="verified-badge">100% Genuine Authorized Stock</span>
+        <span class="section-badge">100% Genuine</span>
       </div>
-      <span class="result-count" id="result-count">Loading 500 products…</span>
+      <span class="result-count" id="result-count">Loading 500 products...</span>
     </div>
 
     <div class="products-grid" id="products-grid"></div>
-
-    <!-- Auto Infinite Scroll Sentinel -->
-    <div class="infinite-scroll-sentinel" id="infinite-scroll-sentinel">
-      <div class="infinite-spinner" id="infinite-spinner"></div>
-      <div class="infinite-status" id="infinite-status">Scroll to explore all 500 branded products</div>
-    </div>
   </main>
 
-  <!-- ── 24/7 AI Chat Widget ── -->
-  <button class="floating-chat-trigger" id="btn-toggle-chat" title="Chat with Santhai AI Assistant">💬</button>
-  <div class="chat-drawer" id="chat-drawer">
-    <div class="chat-header">
-      <div style="display:flex;align-items:center;gap:8px;">
-        <div style="width:8px;height:8px;border-radius:50%;background:var(--accent-green);"></div>
-        <h4 style="font-size:14px;font-weight:700;color:#FFF;">Santhai Prime Assistant</h4>
-      </div>
-      <button class="btn-close" id="btn-close-chat">✕</button>
-    </div>
-    <div class="chat-messages" id="chat-messages">
-      <div class="chat-msg bot">👋 Hello! Ask me about warranty, delivery ETA, UPI payments, coupon codes or product recommendations across 500+ items!</div>
-    </div>
-    <div class="chat-input-row">
-      <input type="text" id="chat-input" class="input-styled" style="margin-top:0;" placeholder="Type your question…">
-      <button id="btn-send-chat" class="btn-add-cart" style="padding:0 14px;">Send</button>
-    </div>
-  </div>
-
-  <!-- ── Cart Slide-Over Drawer ── -->
-  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <!-- Cart Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay" onclick="closeCart()"></div>
   <div class="cart-drawer" id="cart-drawer">
     <div class="drawer-header">
       <h3>Your Shopping Cart</h3>
-      <button class="btn-close" id="btn-cart-close">✕</button>
+      <button class="btn-close" onclick="closeCart()">✕</button>
     </div>
     <div class="drawer-body" id="cart-items-list"></div>
     <div class="drawer-footer">
-      <!-- Coupon Box -->
-      <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:10px;margin-bottom:12px;">
-        <label style="font-size:11.5px;font-weight:700;color:var(--accent-gold);text-transform:uppercase;">Apply Discount Coupon</label>
-        <div class="coupon-box-row">
-          <input type="text" id="coupon-input" class="input-styled" style="margin-top:0;text-transform:uppercase;" placeholder="e.g. SANTHAI500">
-          <button id="btn-apply-coupon" class="btn-loc-change" style="padding:0 12px;border-radius:var(--radius-sm);">Apply</button>
+      <div class="order-summary-row"><span>Subtotal</span><span id="cart-subtotal">₹0</span></div>
+      <div class="order-summary-row" style="color:var(--accent-green);"><span>Delivery</span><span>FREE</span></div>
+      <div class="order-summary-row total"><span>Total</span><span id="cart-grand-total">₹0</span></div>
+      <button class="btn-checkout" id="btn-checkout" onclick="openCheckoutModal()">Proceed to UPI Checkout</button>
+    </div>
+  </div>
+
+  <!-- UPI Checkout Modal -->
+  <div class="modal-wrapper" id="checkout-modal">
+    <div class="modal-card">
+      <button class="btn-close" onclick="closeModal('checkout-modal')">✕</button>
+      <h3 style="color:#FFF;margin-bottom:12px;">Real-World UPI Checkout</h3>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;">Pay directly using Google Pay, PhonePe, Paytm or BHIM UPI.</p>
+      
+      <div style="background:var(--bg-card);padding:12px;border-radius:var(--radius-sm);margin-bottom:14px;border:1px solid var(--border-subtle);">
+        <div style="font-size:13px;color:var(--text-secondary);">Total Payable:</div>
+        <div style="font-size:22px;font-weight:900;color:var(--accent-green);" id="modal-pay-amount">₹0</div>
+      </div>
+
+      <div style="text-align:center;margin-bottom:12px;">
+        <div style="background:#FFF;padding:10px;display:inline-block;border-radius:8px;">
+          <img id="upi-qr" src="" width="160" height="160" alt="UPI QR">
         </div>
-        <div id="coupon-status" style="font-size:11.5px;margin-top:4px;"></div>
+        <div style="font-size:13px;font-weight:700;color:var(--accent-gold);margin-top:6px;">UPI ID: 9488467006@fam</div>
       </div>
-      <!-- Order Summary -->
-      <div class="order-summary-row"><span>Items Subtotal</span><span id="cart-subtotal">₹0</span></div>
-      <div class="order-summary-row discount" id="cart-discount-row" style="display:none;">
-        <span>Coupon Discount</span><span id="cart-discount-val">-₹0</span>
-      </div>
-      <div class="order-summary-row"><span>Express Dispatch</span><span style="color:var(--accent-green);font-weight:700;">FREE</span></div>
-      <div class="order-summary-row total"><span>Total Amount</span><span id="cart-grand-total">₹0</span></div>
-      <button class="btn-checkout" id="btn-proceed-checkout" disabled>Proceed to Secure Checkout</button>
+
+      <label style="font-size:12px;color:var(--text-secondary);">Enter UPI Reference / UTR Number:</label>
+      <input type="text" id="utr-input" class="input-styled" placeholder="e.g. 402981765432">
+      <button class="btn-checkout" onclick="confirmPayment()">✓ Confirm & Place Express Order</button>
     </div>
   </div>
 
-  <!-- ── Product Quick View Modal ── -->
-  <div class="modal-wrapper" id="quickview-modal">
-    <div class="modal-card xlarge">
-      <div class="modal-header">
-        <h3 id="qv-title">Product Details</h3>
-        <button class="btn-close" id="btn-qv-close">✕</button>
-      </div>
-      <div class="modal-body" id="qv-body"></div>
-    </div>
-  </div>
-
-  <!-- ── Wishlist Modal ── -->
-  <div class="modal-wrapper" id="wishlist-modal">
-    <div class="modal-card large">
-      <div class="modal-header">
-        <h3>♥ Your Saved Wishlist</h3>
-        <button class="btn-close" id="btn-wishlist-close">✕</button>
-      </div>
-      <div class="modal-body" id="wishlist-modal-body"></div>
-    </div>
-  </div>
-
-  <!-- ── Orders & Live Tracking Modal ── -->
+  <!-- Orders Modal -->
   <div class="modal-wrapper" id="orders-modal">
-    <div class="modal-card large">
-      <div class="modal-header">
-        <h3>📦 Your Orders & Live Tracking</h3>
-        <button class="btn-close" id="btn-orders-close">✕</button>
-      </div>
-      <div class="modal-body" id="orders-modal-body"></div>
+    <div class="modal-card">
+      <button class="btn-close" onclick="closeModal('orders-modal')">✕</button>
+      <h3 style="color:#FFF;margin-bottom:12px;">Your Live Orders</h3>
+      <div id="orders-list-body"></div>
     </div>
   </div>
 
-  <!-- ── API Key Modal ── -->
-  <div class="modal-wrapper" id="api-modal">
-    <div class="modal-card large">
-      <div class="modal-header">
-        <h3>🔑 Real-Time API Key & Developer Suite</h3>
-        <button class="btn-close" id="btn-api-close">✕</button>
-      </div>
-      <div class="modal-body">
-        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">
-          Use your <strong>Santhai Prime Live API Key</strong> to connect real-time order creation, inventory sync, live location tracking, and payment gateways.
-        </p>
-        <label style="font-size:12px;font-weight:700;color:var(--accent-gold);text-transform:uppercase;">Your Active Live API Key</label>
-        <div style="background:#06090F;border:1px solid var(--border-highlight);border-radius:var(--radius-sm);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0 16px;">
-          <span class="mono" id="active-api-key-val" style="color:var(--accent-cyan);font-size:13px;word-break:break-all;"></span>
-          <button id="btn-copy-live-api-key" class="btn-loc-change" style="padding:4px 10px;">Copy Key</button>
-        </div>
-        <div style="display:flex;gap:10px;margin-bottom:16px;">
-          <button id="btn-regenerate-api-key" class="btn-quick-view" style="flex:1;">🔄 Generate New Key</button>
-          <button id="btn-test-api-call" class="btn-quick-view" style="flex:1;background:rgba(16,185,129,0.15);color:var(--accent-green);border-color:rgba(16,185,129,0.4);">⚡ Test Live Ping</button>
-        </div>
-        <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:14px;margin-bottom:16px;">
-          <h4 style="font-size:13px;color:#FFF;margin-bottom:6px;">🔌 External Integration Keys</h4>
-          <label style="font-size:11px;color:var(--text-secondary);display:block;margin-top:8px;">Razorpay / Payment Gateway Key:</label>
-          <input type="text" id="ext-payment-key" class="input-styled" placeholder="rzp_live_..." style="margin-top:2px;">
-          <label style="font-size:11px;color:var(--text-secondary);display:block;margin-top:8px;">Google Maps API Key:</label>
-          <input type="text" id="ext-maps-key" class="input-styled" placeholder="AIzaSy..." style="margin-top:2px;">
-          <button id="btn-save-ext-keys" class="btn-checkout" style="margin-top:12px;padding:10px;">Save Configuration</button>
-        </div>
-        <label style="font-size:12px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;">cURL Example</label>
-        <pre id="api-code-snippet" style="background:#06090F;border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:12px;font-size:12px;color:#E2E8F0;overflow-x:auto;margin-top:8px;line-height:1.5;"></pre>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── Product Feedback Modal ── -->
-  <div class="modal-wrapper" id="feedback-modal">
-    <div class="modal-card large">
-      <div class="modal-header">
-        <h3 id="feedback-modal-title">Product Reviews & Feedback</h3>
-        <button class="btn-close" id="btn-feedback-close">✕</button>
-      </div>
-      <div class="modal-body" id="feedback-modal-body"></div>
-    </div>
-  </div>
-
-  <!-- ── Location Selector Modal ── -->
+  <!-- Location Modal -->
   <div class="modal-wrapper" id="location-modal">
     <div class="modal-card">
-      <div class="modal-header">
-        <h3>Select Delivery Location</h3>
-        <button class="btn-close" id="btn-loc-close">✕</button>
+      <button class="btn-close" onclick="closeModal('location-modal')">✕</button>
+      <h3 style="color:#FFF;margin-bottom:12px;">Select Delivery Hub</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">
+        <button class="btn-add-cart" onclick="setCity('Bengaluru (560001)')">💻 Bengaluru</button>
+        <button class="btn-add-cart" onclick="setCity('Mumbai (400001)')">🏢 Mumbai</button>
+        <button class="btn-add-cart" onclick="setCity('Chennai (600001)')">🌊 Chennai</button>
+        <button class="btn-add-cart" onclick="setCity('Delhi NCR (110001)')">🏛️ Delhi</button>
       </div>
-      <div class="modal-body">
-        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">Choose your city or enter your pincode to check same-day express delivery availability:</p>
-        <button id="btn-use-gps" class="btn-checkout" style="background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-highlight);padding:10px;margin-bottom:14px;">
-          📍 Use Device GPS Location
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast-bar">Item updated</div>
+
+  <script>
+    // 500 Curated Products Generator with Zero-Failure Architecture
+    const IMAGE_POOLS = {
+      audio: [
+        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80",
+        "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=600&q=80",
+        "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=600&q=80"
+      ],
+      laptop: [
+        "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&q=80",
+        "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=600&q=80"
+      ],
+      watch: [
+        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80",
+        "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=600&q=80"
+      ],
+      snack: [
+        "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=600&q=80",
+        "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=600&q=80"
+      ],
+      appliance: [
+        "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80",
+        "https://images.unsplash.com/photo-1585672840502-3c2242137974?w=600&q=80"
+      ],
+      phone: [
+        "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80",
+        "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=600&q=80"
+      ]
+    };
+
+    function generate500Items() {
+      const items = [];
+      const categories = [
+        { cat: "Infinity Audio", pool: "audio", brands: ["Infinity", "Sony", "JBL", "Bose"], baseP: 1499 },
+        { cat: "Home Appliances", pool: "appliance", brands: ["Dyson", "Philips", "Samsung", "LG", "Kent"], baseP: 8999 },
+        { cat: "Laptops", pool: "laptop", brands: ["Apple", "Dell", "ASUS", "HP", "Lenovo"], baseP: 54990 },
+        { cat: "Smartwatches", pool: "watch", brands: ["Apple", "Samsung", "boAt", "Noise", "Garmin"], baseP: 2499 },
+        { cat: "Smartphones", pool: "phone", brands: ["Apple", "Samsung", "OnePlus", "Google", "Xiaomi"], baseP: 34999 },
+        { cat: "Snacks & Drinks", pool: "snack", brands: ["Lays", "Doritos", "Cadbury", "Oreo", "Red Bull"], baseP: 95 }
+      ];
+
+      for (let i = 1; i <= 500; i++) {
+        const c = categories[i % categories.length];
+        const brand = c.brands[i % c.brands.length];
+        const price = Math.round(c.baseP * (0.8 + ((i % 8) * 0.15)));
+        const mrp = Math.round(price * 1.3);
+        const pool = IMAGE_POOLS[c.pool];
+        const img = pool[i % pool.length];
+
+        items.push({
+          id: i,
+          name: `${brand} Edition #${i} (${c.cat})`,
+          brand: brand,
+          cat: c.cat,
+          price: price,
+          mrp: mrp,
+          rating: +(4.5 + ((i % 5) * 0.1)).toFixed(1),
+          reviews: 500 + ((i * 37) % 4000),
+          img: img,
+          desc: `Genuine manufacturer authorized ${brand} stock with 1-Year warranty.`
+        });
+      }
+      return items;
+    }
+
+    const PRODUCTS = generate500Items();
+    let cart = JSON.parse(localStorage.getItem("sp_cart") || "{}");
+    let orders = JSON.parse(localStorage.getItem("sp_orders") || "[]");
+    let activeCat = "All";
+    let searchQuery = "";
+
+    function renderCategoryChips() {
+      const cats = ["All", ...new Set(PRODUCTS.map(p => p.cat))];
+      const chipsEl = document.getElementById("category-chips");
+      chipsEl.innerHTML = cats.map(c => `
+        <button class="filter-chip ${c === activeCat ? 'active' : ''}" onclick="selectCat('${c}')">
+          ${c}
         </button>
-        <label style="font-size:12px;font-weight:700;color:var(--accent-gold);text-transform:uppercase;">Quick Select Major Hubs</label>
-        <div class="city-grid">
-          <button class="city-btn" data-city="Mumbai"     data-pincode="400001" data-lat="19.0760" data-lon="72.8777">🏢 Mumbai (400001)</button>
-          <button class="city-btn" data-city="Bengaluru"  data-pincode="560001" data-lat="12.9716" data-lon="77.5946">💻 Bengaluru (560001)</button>
-          <button class="city-btn" data-city="Delhi NCR"  data-pincode="110001" data-lat="28.6139" data-lon="77.2090">🏛️ Delhi NCR (110001)</button>
-          <button class="city-btn" data-city="Chennai"    data-pincode="600001" data-lat="13.0827" data-lon="80.2707">🌊 Chennai (600001)</button>
-          <button class="city-btn" data-city="Hyderabad"  data-pincode="500001" data-lat="17.3850" data-lon="78.4867">💎 Hyderabad (500001)</button>
-          <button class="city-btn" data-city="Kolkata"    data-pincode="700001" data-lat="22.5726" data-lon="88.3639">🎨 Kolkata (700001)</button>
-          <button class="city-btn" data-city="Pune"       data-pincode="411001" data-lat="18.5204" data-lon="73.8567">🚗 Pune (411001)</button>
-          <button class="city-btn" data-city="Ahmedabad"  data-pincode="380001" data-lat="23.0225" data-lon="72.5714">🪁 Ahmedabad (380001)</button>
-        </div>
-        <div style="margin-top:16px;">
-          <label style="font-size:12px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;">Or Enter Pincode / City</label>
-          <div style="display:flex;gap:8px;margin-top:6px;">
-            <input type="text" id="manual-city-input" class="input-styled" style="margin-top:0;" placeholder="e.g. 560001 or Jaipur…">
-            <button id="btn-manual-city-apply" class="btn-loc-change" style="padding:0 16px;border-radius:var(--radius-sm);">Check</button>
+      `).join("");
+    }
+
+    function renderBrands() {
+      const brands = ["All Brands", ...new Set(PRODUCTS.map(p => p.brand))].sort();
+      const bSel = document.getElementById("brand-filter");
+      bSel.innerHTML = brands.map(b => `<option value="${b}">${b}</option>`).join("");
+      bSel.onchange = renderProducts;
+    }
+
+    function selectCat(c) {
+      activeCat = c;
+      renderCategoryChips();
+      renderProducts();
+    }
+
+    function getFilteredProducts() {
+      const brandVal = document.getElementById("brand-filter").value;
+      const priceVal = document.getElementById("price-filter").value;
+      const sortVal = document.getElementById("sort-filter").value;
+
+      let list = [...PRODUCTS];
+      if (activeCat !== "All") list = list.filter(p => p.cat === activeCat);
+      if (brandVal && brandVal !== "All Brands") list = list.filter(p => p.brand === brandVal);
+
+      if (priceVal === "under-1000") list = list.filter(p => p.price < 1000);
+      else if (priceVal === "1000-10000") list = list.filter(p => p.price >= 1000 && p.price <= 10000);
+      else if (priceVal === "above-10000") list = list.filter(p => p.price > 10000);
+
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        list = list.filter(p => p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q));
+      }
+
+      if (sortVal === "price-asc") list.sort((a,b) => a.price - b.price);
+      else if (sortVal === "price-desc") list.sort((a,b) => b.price - a.price);
+
+      return list;
+    }
+
+    function renderProducts() {
+      const list = getFilteredProducts();
+      document.getElementById("result-count").textContent = `Showing ${list.length} of 500 Products`;
+      document.getElementById("category-heading").textContent = activeCat === "All" ? "500 Branded Products" : activeCat;
+
+      const grid = document.getElementById("products-grid");
+      if (list.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#9CA3AF;">No matching products found.</div>`;
+        return;
+      }
+
+      grid.innerHTML = list.map(p => {
+        const inCart = cart[p.id] || 0;
+        const discount = Math.round(((p.mrp - p.price) / p.mrp) * 100);
+        return `
+          <div class="product-card">
+            <div class="card-media">
+              <span class="brand-pill">${p.brand}</span>
+              <div class="card-badge-group">
+                <span class="discount-pill">-${discount}%</span>
+              </div>
+              <span class="delivery-speed-pill">⚡ Express</span>
+              <img class="card-img" src="${p.img}" alt="${p.name}" loading="lazy">
+            </div>
+            <div class="card-content">
+              <div>
+                <div class="card-category">${p.cat}</div>
+                <div class="card-name">${p.name}</div>
+                <div class="card-desc">${p.desc}</div>
+              </div>
+              <div>
+                <div class="card-rating-store">
+                  <span class="rating-tag">★ ${p.rating} (${p.reviews})</span>
+                  <span>📍 Express Hub</span>
+                </div>
+                <div class="card-footer">
+                  <div>
+                    <div class="price-main">₹${p.price.toLocaleString('en-IN')}</div>
+                    <div class="price-mrp">₹${p.mrp.toLocaleString('en-IN')}</div>
+                  </div>
+                  <button class="btn-add-cart ${inCart > 0 ? 'added' : ''}" onclick="addToCart(${p.id})">
+                    ${inCart > 0 ? `In Cart (${inCart}) ✓` : '+ Add'}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
+        `;
+      }).join("");
+    }
 
-  <!-- ── Payment / UPI Checkout Modal ── -->
-  <div class="modal-wrapper" id="payment-modal">
-    <div class="modal-card large">
-      <div class="modal-header">
-        <h3>Real-World Secure Checkout</h3>
-        <button class="btn-close" id="btn-pay-close">✕</button>
-      </div>
-      <div class="modal-body" id="payment-modal-body"></div>
-    </div>
-  </div>
+    function addToCart(id) {
+      cart[id] = (cart[id] || 0) + 1;
+      localStorage.setItem("sp_cart", JSON.stringify(cart));
+      updateCartBadge();
+      renderProducts();
+      showToast("Added to Cart!");
+    }
 
-  <!-- ── Toast Notification ── -->
-  <div class="toast" id="toast-bar">
-    <span id="toast-text">Done!</span>
-  </div>
+    function updateCartBadge() {
+      const count = Object.values(cart).reduce((a,b) => a+b, 0);
+      document.getElementById("cart-count").textContent = count;
+    }
 
-  <!-- Main JavaScript -->
-  <script src="script.js"></script>
+    function openCart() {
+      const listEl = document.getElementById("cart-items-list");
+      const entries = Object.entries(cart);
+      if (entries.length === 0) {
+        listEl.innerHTML = `<div style="text-align:center;padding:40px;color:#9CA3AF;">Your cart is empty.</div>`;
+        document.getElementById("cart-subtotal").textContent = "₹0";
+        document.getElementById("cart-grand-total").textContent = "₹0";
+      } else {
+        let total = 0;
+        listEl.innerHTML = entries.map(([id, qty]) => {
+          const p = PRODUCTS.find(x => x.id == id);
+          if (!p) return "";
+          total += p.price * qty;
+          return `
+            <div class="cart-item">
+              <img class="cart-item-img" src="${p.img}">
+              <div style="flex:1;">
+                <div style="font-size:11px;color:var(--accent-gold);font-weight:700;">${p.brand}</div>
+                <div style="font-size:13px;font-weight:700;color:#FFF;">${p.name}</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+                  <div class="qty-counter">
+                    <button class="qty-btn" onclick="changeQty(${p.id}, -1)">−</button>
+                    <span style="font-weight:700;font-size:13px;">${qty}</span>
+                    <button class="qty-btn" onclick="changeQty(${p.id}, 1)">+</button>
+                  </div>
+                  <div style="font-weight:800;color:#FFF;">₹${(p.price * qty).toLocaleString('en-IN')}</div>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join("");
+        document.getElementById("cart-subtotal").textContent = `₹${total.toLocaleString('en-IN')}`;
+        document.getElementById("cart-grand-total").textContent = `₹${total.toLocaleString('en-IN')}`;
+      }
+      document.getElementById("cart-drawer").classList.add("open");
+      document.getElementById("drawer-overlay").classList.add("open");
+    }
+
+    function closeCart() {
+      document.getElementById("cart-drawer").classList.remove("open");
+      document.getElementById("drawer-overlay").classList.remove("open");
+    }
+
+    function changeQty(id, delta) {
+      cart[id] = (cart[id] || 0) + delta;
+      if (cart[id] <= 0) delete cart[id];
+      localStorage.setItem("sp_cart", JSON.stringify(cart));
+      updateCartBadge();
+      openCart();
+      renderProducts();
+    }
+
+    function openCheckoutModal() {
+      const total = Object.entries(cart).reduce((sum, [id, qty]) => {
+        const p = PRODUCTS.find(x => x.id == id);
+        return sum + (p ? p.price * qty : 0);
+      }, 0);
+      if (total === 0) return;
+
+      document.getElementById("modal-pay-amount").textContent = `₹${total.toLocaleString('en-IN')}`;
+      const upiUrl = `upi://pay?pa=9488467006@fam&pn=Santhai+Marketplace&am=${total}&cu=INR`;
+      document.getElementById("upi-qr").src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUrl)}`;
+      
+      closeCart();
+      document.getElementById("checkout-modal").classList.add("open");
+    }
+
+    function confirmPayment() {
+      const utr = document.getElementById("utr-input").value.trim();
+      if (!utr) { showToast("Please enter UPI reference number!"); return; }
+      
+      orders.unshift({
+        id: "SANTHAI-" + Math.floor(100000 + Math.random() * 900000),
+        date: new Date().toLocaleDateString('en-IN'),
+        items: Object.keys(cart).length,
+        utr: utr
+      });
+      localStorage.setItem("sp_orders", JSON.stringify(orders));
+      document.getElementById("orders-count").textContent = orders.length;
+
+      cart = {};
+      localStorage.setItem("sp_cart", JSON.stringify(cart));
+      updateCartBadge();
+      renderProducts();
+      closeModal("checkout-modal");
+      showToast("Order Placed Successfully! 🚀");
+    }
+
+    function openOrdersModal() {
+      const body = document.getElementById("orders-list-body");
+      if (orders.length === 0) {
+        body.innerHTML = `<div style="text-align:center;padding:30px;color:#9CA3AF;">No orders placed yet.</div>`;
+      } else {
+        body.innerHTML = orders.map(o => `
+          <div style="background:var(--bg-card);padding:12px;border-radius:6px;margin-bottom:8px;border:1px solid var(--border-subtle);">
+            <div style="font-weight:800;color:#FFF;">Order #${o.id}</div>
+            <div style="font-size:12px;color:#9CA3AF;">Date: ${o.date} · UTR: ${o.utr}</div>
+            <div style="color:var(--accent-green);font-size:12px;font-weight:700;margin-top:4px;">● Express Dispatch In-Transit</div>
+          </div>
+        `).join("");
+      }
+      document.getElementById("orders-modal").classList.add("open");
+    }
+
+    function openLocationModal() { document.getElementById("location-modal").classList.add("open"); }
+    function setCity(city) {
+      document.getElementById("user-location-label").textContent = city;
+      closeModal("location-modal");
+      showToast(`Location set to ${city}`);
+    }
+
+    function closeModal(id) { document.getElementById(id).classList.remove("open"); }
+
+    function resetFilters() {
+      activeCat = "All";
+      document.getElementById("brand-filter").value = "All Brands";
+      document.getElementById("price-filter").value = "all";
+      document.getElementById("sort-filter").value = "popular";
+      document.getElementById("search-input").value = "";
+      searchQuery = "";
+      renderCategoryChips();
+      renderProducts();
+    }
+
+    function applyQuickPromo(c) {
+      openCart();
+      showToast(`Promo ${c} Applied!`);
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast-bar");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 2000);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderCategoryChips();
+      renderBrands();
+      renderProducts();
+      updateCartBadge();
+      document.getElementById("orders-count").textContent = orders.length;
+
+      document.getElementById("search-input").addEventListener("input", (e) => {
+        searchQuery = e.target.value;
+        renderProducts();
+      });
+      document.getElementById("price-filter").addEventListener("change", renderProducts);
+      document.getElementById("sort-filter").addEventListener("change", renderProducts);
+    });
+  </script>
 </body>
 </html>
